@@ -494,6 +494,191 @@ public class DLSeatInterface {
             }
         }
 
+
+        retstr += "\n\n Window Seat List \n\n";
+
+        it = this.seatLayoutMap.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            Integer rowNumber = (Integer) pair.getKey();
+            String layout = (String) pair.getValue();
+            String bulkHead = "|";
+            String newRow = "|";
+            String cabinCode = "Y";
+            Boolean hasBulk = false;
+
+            for (int i=0;i<layout.length();i++) {
+                String newBulkStr = " ";
+                String seatName = rowNumber.toString() + layout.charAt(i);
+                if (this.seatDataMap.containsKey(seatName)) {
+                    seatDataClass sdc = this.seatDataMap.get(seatName);
+                    sdc.assignDisplayString();
+                    if (sdc.window)
+                        newRow += sdc.dispStr;
+                    else
+                        newRow += '-';
+                    if (sdc.noStowage) {
+                        newBulkStr = "_";
+                        hasBulk = true;
+                    }
+                    cabinCode=sdc.cabinCode;
+
+                } else if (layout.charAt(i)=='|') {
+                    newRow += '|';
+                } else {
+                    newRow += " ";
+                }
+                bulkHead += newBulkStr;
+            }
+            bulkHead += "|\n";
+            newRow += "| " + rowNumber.toString() + "("+cabinCode+")\n";
+
+            if (hasBulk) {
+                retstr += bulkHead + newRow;
+            } else {
+                retstr += newRow;
+            }
+        }
+
+        retstr += "\n\n Aisle Seat List \n\n";
+
+        it = this.seatLayoutMap.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            Integer rowNumber = (Integer) pair.getKey();
+            String layout = (String) pair.getValue();
+            String bulkHead = "|";
+            String newRow = "|";
+            String cabinCode = "Y";
+            Boolean hasBulk = false;
+
+            for (int i=0;i<layout.length();i++) {
+                String newBulkStr = " ";
+                String seatName = rowNumber.toString() + layout.charAt(i);
+                if (this.seatDataMap.containsKey(seatName)) {
+                    seatDataClass sdc = this.seatDataMap.get(seatName);
+                    sdc.assignDisplayString();
+                    if (sdc.aisle)
+                        newRow += sdc.dispStr;
+                    else
+                        newRow += '-';
+                    if (sdc.noStowage) {
+                        newBulkStr = "_";
+                        hasBulk = true;
+                    }
+                    cabinCode=sdc.cabinCode;
+
+                } else if (layout.charAt(i)=='|') {
+                    newRow += '|';
+                } else {
+                    newRow += " ";
+                }
+                bulkHead += newBulkStr;
+            }
+            bulkHead += "|\n";
+            newRow += "| " + rowNumber.toString() + "("+cabinCode+")\n";
+
+            if (hasBulk) {
+                retstr += bulkHead + newRow;
+            } else {
+                retstr += newRow;
+            }
+        }
+
+        retstr += "\n\n Bulkhead Seat List \n\n";
+
+        it = this.seatLayoutMap.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            Integer rowNumber = (Integer) pair.getKey();
+            String layout = (String) pair.getValue();
+            String bulkHead = "|";
+            String newRow = "|";
+            String cabinCode = "Y";
+            Boolean hasBulk = false;
+
+            for (int i=0;i<layout.length();i++) {
+                String newBulkStr = " ";
+                String seatName = rowNumber.toString() + layout.charAt(i);
+                if (this.seatDataMap.containsKey(seatName)) {
+                    seatDataClass sdc = this.seatDataMap.get(seatName);
+                    sdc.assignDisplayString();
+                    if (sdc.bulkhead)
+                        newRow += sdc.dispStr;
+                    else
+                        newRow += '-';
+                    if (sdc.noStowage) {
+                        newBulkStr = "_";
+                        hasBulk = true;
+                    }
+                    cabinCode=sdc.cabinCode;
+
+                } else if (layout.charAt(i)=='|') {
+                    newRow += '|';
+                } else {
+                    newRow += " ";
+                }
+                bulkHead += newBulkStr;
+            }
+            bulkHead += "|\n";
+            newRow += "| " + rowNumber.toString() + "("+cabinCode+")\n";
+
+            if (hasBulk) {
+                retstr += bulkHead + newRow;
+            } else {
+                retstr += newRow;
+            }
+        }
+
+        retstr += "\n\n No Stowage Seat List \n\n";
+
+        it = this.seatLayoutMap.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            Integer rowNumber = (Integer) pair.getKey();
+            String layout = (String) pair.getValue();
+            String bulkHead = "|";
+            String newRow = "|";
+            String cabinCode = "Y";
+            Boolean hasBulk = false;
+
+            for (int i=0;i<layout.length();i++) {
+                String newBulkStr = " ";
+                String seatName = rowNumber.toString() + layout.charAt(i);
+                if (this.seatDataMap.containsKey(seatName)) {
+                    seatDataClass sdc = this.seatDataMap.get(seatName);
+                    sdc.assignDisplayString();
+                    if (sdc.noStowage)
+                        newRow += sdc.dispStr;
+                    else
+                        newRow += '-';
+                    if (sdc.noStowage) {
+                        newBulkStr = "_";
+                        hasBulk = true;
+                    }
+                    cabinCode=sdc.cabinCode;
+
+                } else if (layout.charAt(i)=='|') {
+                    newRow += '|';
+                } else {
+                    newRow += " ";
+                }
+                bulkHead += newBulkStr;
+            }
+            bulkHead += "|\n";
+            newRow += "| " + rowNumber.toString() + "("+cabinCode+")\n";
+
+            if (hasBulk) {
+                retstr += bulkHead + newRow;
+            } else {
+                retstr += newRow;
+            }
+        }
+
         /*
         TreeMap<Integer,TreeSet<String>> rowSet = new TreeMap<>();
 
