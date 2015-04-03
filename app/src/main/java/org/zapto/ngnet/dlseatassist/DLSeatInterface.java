@@ -38,12 +38,16 @@ public class DLSeatInterface {
 
     private Boolean successful;
 
+    private FlightInfo flifo;
+
+    /*
     private int flightNumber;
     private String flightDate;
     private String longFlightDate;
     private String carrier;
     private String flightOrig;
     private String flightDest;
+    */
     private String eqCode;
     private HttpClient httpclient;
     private CookieStore cookieStore;
@@ -130,12 +134,12 @@ public class DLSeatInterface {
         String turl;
         turl="/ism/SeatMapDisplay.action?cmd=LSM&commandContext=na?1?1&flightSegment=1?1?";
 
-        turl += this.flightNumber + "?Y?";
-        turl += this.flightOrig + "?";
-        turl += this.flightDate + "?";
+        turl += this.flifo.flightNumber + "?Y?";
+        turl += this.flifo.flightOrig + "?";
+        turl += this.flifo.flightDate + "?";
         turl += "12:01pm?";
-        turl += this.flightDest + "?";
-        turl += this.flightDate + "?";
+        turl += this.flifo.flightDest + "?";
+        turl += this.flifo.flightDate + "?";
         turl += "12:02pm?0?PREFERRED_PARTY";
 
         return turl;
@@ -150,25 +154,25 @@ public class DLSeatInterface {
         tstr += "c0-methodName=retrieveLogicalSeatMapDWR\n";
         tstr += "c0-id=0\n";
         tstr += "c0-e2=boolean:false\n";
-        tstr += "c0-e3=string:" + this.carrier + "\n";
+        tstr += "c0-e3=string:" + this.flifo.carrier + "\n";
         tstr += "c0-e4=boolean:false\nc0-e5=boolean:false\nc0-e6=boolean:false\nc0-e7=boolean:false\nc0-e8=boolean:false\n";
 
-        tstr += "c0-e9=string:" + this.flightDest + "\n";
+        tstr += "c0-e9=string:" + this.flifo.flightDest + "\n";
 
-        tstr += "c0-e10=string:" + this.longFlightDate + "\n";
+        tstr += "c0-e10=string:" + this.flifo.longFlightDate + "\n";
         //Time seems unimportant
         tstr += "c0-e11=string:08%2030%20A\n";
 
         tstr += "c0-e12=boolean:false\nc0-e13=string:\nc0-e14=string:Y\nc0-e15=string:\nc0-e16=boolean:false\nc0-e17=string:\nc0-e18=string:\nc0-e19=boolean:false\nc0-e20=boolean:false\nc0-e21=string:\n";
 
-        tstr += "c0-e22=string:" + this.flightOrig + "\n";
-        tstr += "c0-e23=string:" + this.longFlightDate + "\n";
+        tstr += "c0-e22=string:" + this.flifo.flightOrig + "\n";
+        tstr += "c0-e23=string:" + this.flifo.longFlightDate + "\n";
         //Time seems unimportant
         tstr += "c0-e24=string:07%2000%20A\n";
 
         tstr += "c0-e25=boolean:false\nc0-e26=boolean:false\nc0-e27=boolean:false\nc0-e28=string:\nc0-e29=string:\nc0-e30=string:\nc0-e31=string:\n";
 
-        tstr += "c0-e32=string:" + this.flightNumber + "\n";
+        tstr += "c0-e32=string:" + this.flifo.flightNumber + "\n";
 
         tstr += "c0-e33=string:\nc0-e34=string:\nc0-e35=boolean:false\nc0-e36=string:\nc0-e37=string:\nc0-e38=boolean:false\nc0-e39=string:\nc0-e40=string:\nc0-e41=string:\nc0-e42=string:\nc0-e43=string:\nc0-e44=string:\nc0-e45=string:\nc0-e46=string:\nc0-e47=string:\nc0-e48=boolean:false\nc0-e49=boolean:false\nc0-e50=string:\nc0-e51=boolean:false\nc0-e1=Object_Object:{ETicketPresent:reference:c0-e2, airlineCode:reference:c0-e3, airportGateCheckInProgress:reference:c0-e4, allFlightsDeparted:reference:c0-e5, allowSeatForOACodeshare:reference:c0-e6, allowSeatSelForOa:reference:c0-e7, allowSeatSelectionForKL:reference:c0-e8, arrivalCity:reference:c0-e9, arrivalDate:reference:c0-e10, arrivalTime:reference:c0-e11, basicEconomyDisplayFlag:reference:c0-e12, category:reference:c0-e13, classOfServiceCode:reference:c0-e14, classOfServiceDescription:reference:c0-e15, cleanedFlag:reference:c0-e16, codeshareAirlineName:reference:c0-e17, currentActionCode:reference:c0-e18, decontentedFlight:reference:c0-e19, departedFlight:reference:c0-e20, departureArrivalCityName:reference:c0-e21, departureCity:reference:c0-e22, departureDate:reference:c0-e23, departureTime:reference:c0-e24, displayStaticSeatMap:reference:c0-e25, dlConnectionCarrier:reference:c0-e26, economyCabinOnly:reference:c0-e27, equipmentCode:reference:c0-e28, equipmentType:reference:c0-e29, equipmentUrl:reference:c0-e30, flightInfoIndex:reference:c0-e31, flightNumber:reference:c0-e32, flightTime:reference:c0-e33, flightType:reference:c0-e34, groundHandled:reference:c0-e35, groundHandledBy:reference:c0-e36, imageUrl:reference:c0-e37, iropProtectedBlock:reference:c0-e38, iropTripType:reference:c0-e39, iropType:reference:c0-e40, itineraryDestination:reference:c0-e41, itineraryOrigin:reference:c0-e42, legId:reference:c0-e43, marketingAirlineCode:reference:c0-e44, operatingAirline:reference:c0-e45, operatingFlightNumber:reference:c0-e46, segmentNumber:reference:c0-e47, standbyFlag:reference:c0-e48, transconFlight:reference:c0-e49, type:reference:c0-e50, withinCheckInWindow:reference:c0-e51}\nc0-param0=Array:[reference:c0-e1]\nc0-param1=string:1\nc0-param2=string:USD\nc0-param3=boolean:true\nc0-param4=string:SHOPPING\nbatchId=0";
 
@@ -441,9 +445,9 @@ public class DLSeatInterface {
 
         //Build Header
 
-        retstr += this.carrier + this.flightNumber + "  ";
-        retstr += this.flightOrig + " to " + this.flightDest + "\n";
-        retstr += this.longFlightDate + "\n\n";
+        retstr += this.flifo.carrier + this.flifo.flightNumber + "  ";
+        retstr += this.flifo.flightOrig + " to " + this.flifo.flightDest + "\n";
+        retstr += this.flifo.longFlightDate + "\n\n";
         retstr += "O-Open X-Occupied B-Blocked E-EC+ P-Preferred\n   Row (Class)\n\n";
 
         if (!this.successful)
@@ -730,7 +734,7 @@ public class DLSeatInterface {
 
     }
 
-    public DLSeatInterface(Integer tflightNumber, String tflightDate, String tlongFlightDate, String tflightOrig, String tflightDest, String tcarrier) {
+    public DLSeatInterface(FlightInfo tflifo) {
         this.cookieStore = new BasicCookieStore();
         this.localContext = new BasicHttpContext();
         this.localContext.setAttribute(ClientContext.COOKIE_STORE,this.cookieStore);
@@ -738,12 +742,15 @@ public class DLSeatInterface {
 
         this.seatDataMap=new HashMap<>();
 
+        /*
         this.flightNumber=tflightNumber;
         this.flightDate=tflightDate;
         this.longFlightDate=tlongFlightDate;
         this.flightOrig=tflightOrig;
         this.flightDest=tflightDest;
         this.carrier=tcarrier;
+        */
+        this.flifo=tflifo;
 
         try {
             this.prepCookie();

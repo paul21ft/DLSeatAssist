@@ -18,4 +18,6 @@
         <item>Nov</item>
         <item>Dec</item>
     </string-array>
+    <string name="title_activity_set_alerts">SetAlerts</string>
+    <string name="title_activity_get_alerts">GetAlerts</string>
 </resources>

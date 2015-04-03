@@ -41,9 +41,9 @@
                 android:text="Search"
                 android:id="@+id/goSearch"
                 android:onClick="goSearch"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="123dp" />
+                android:layout_below="@+id/flightMonth"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <EditText
                 android:layout_width="50dp"
@@ -121,6 +121,16 @@
                 android:layout_alignBottom="@+id/flightDay"
                 android:layout_alignLeft="@+id/flightOrig"
                 android:layout_alignStart="@+id/flightOrig" />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="Add Alert"
+                android:id="@+id/addAlertBtn"
+                android:onClick="goAddAlert"
+                android:layout_alignTop="@+id/goSearch"
+                android:layout_toRightOf="@+id/goSearch"
+                android:layout_toEndOf="@+id/goSearch" />
 
 
         </RelativeLayout>

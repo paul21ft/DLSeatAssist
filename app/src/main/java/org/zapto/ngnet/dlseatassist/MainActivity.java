@@ -1,6 +1,7 @@
 package org.zapto.ngnet.dlseatassist;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
@@ -15,7 +16,9 @@ import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
 
-    public final static String EXTRA_MESSAGE = "org.zapto.ngnet.dlseatassist.MESSAGE";
+    public final static String MY_PREFS_NAME = "org.zapto.ngnet.dlseatassist";
+    public final static String PREFS_ALERT_STORAGE = "JSONAlerts";
+
 
     //private EditText eText;
     private TextView textView;
@@ -53,6 +56,13 @@ public class MainActivity extends ActionBarActivity {
         this.flightYear = (EditText) findViewById(R.id.flightYear);
 
         isSearching=false;
+
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        if (!prefs.contains(PREFS_ALERT_STORAGE)) {
+            editor.putString(PREFS_ALERT_STORAGE, "");
+            editor.commit();
+        }
     }
 
 
@@ -78,6 +88,19 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public FlightInfo getFlifo() {
+
+        Integer fnum = Integer.parseInt(flightNumber.getText().toString());
+        String fOrig = flightOrig.getText().toString();
+        String fDest = flightDest.getText().toString();
+        String carrier = flightCarrier.getText().toString();
+        String sDate = flightDay.getText().toString() + flightMonth.getSelectedItem().toString();
+        String lDate = flightDay.getText().toString() + " " + flightMonth.getSelectedItem().toString().toUpperCase() + " " + flightYear.getText().toString();
+
+        return new FlightInfo(fnum,sDate,lDate,fOrig,fDest,carrier);
+
+    }
+
     public void goSearch(View view) {
         textView.setText("Searching.....");
         if (isSearching){
@@ -88,14 +111,10 @@ public class MainActivity extends ActionBarActivity {
         new Thread(new Runnable() {
             public void run() {
 
-                Integer fnum = Integer.parseInt(flightNumber.getText().toString());
-                String fOrig = flightOrig.getText().toString();
-                String fDest = flightDest.getText().toString();
-                String carrier = flightCarrier.getText().toString();
-                String sDate = flightDay.getText().toString() + flightMonth.getSelectedItem().toString();
-                String lDate = flightDay.getText().toString() + " " + flightMonth.getSelectedItem().toString().toUpperCase() + " " + flightYear.getText().toString();
 
-                DLSeatInterface DLSI = new DLSeatInterface(fnum,sDate,lDate,fOrig,fDest,carrier);
+
+
+                DLSeatInterface DLSI = new DLSeatInterface(getFlifo());
                 message = DLSI.createDisplayString();
 
                 runOnUiThread(new Runnable() {
@@ -108,5 +127,11 @@ public class MainActivity extends ActionBarActivity {
             }
         }).start();
 
+    }
+
+    public void goAddAlert(View view) {
+        Intent intent = new Intent(this, SetAlerts.class);
+        intent.putExtra("FLIFOData",getFlifo());
+        startActivity(intent);
     }
 }
