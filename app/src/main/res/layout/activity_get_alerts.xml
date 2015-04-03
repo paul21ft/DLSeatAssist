@@ -6,7 +6,64 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="org.zapto.ngnet.dlseatassist.GetAlerts">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" >
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:ems="10"
+                android:maxLength="3"
+                android:text="1"
+                android:id="@+id/deleteNumber"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:text="Delete Alert"
+                android:id="@+id/deleteAlert"
+                android:onClick="goDeleteAlert"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/deleteNumber"
+                android:layout_toEndOf="@+id/deleteNumber" />
+
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:text="Delete ALL"
+                android:id="@+id/deleteAllAlerts"
+                android:onClick="goDeleteAllAlerts"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="No Active Alerts"
+                android:id="@+id/activeAlertText"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="50dp"
+                android:layout_alignRight="@+id/deleteAllAlerts"
+                android:layout_alignEnd="@+id/deleteAllAlerts"
+                android:layout_below="@+id/deleteNumber" />
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

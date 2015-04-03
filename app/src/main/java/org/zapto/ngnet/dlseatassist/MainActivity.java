@@ -16,8 +16,7 @@ import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
 
-    public final static String MY_PREFS_NAME = "org.zapto.ngnet.dlseatassist";
-    public final static String PREFS_ALERT_STORAGE = "JSONAlerts";
+
 
 
     //private EditText eText;
@@ -57,12 +56,7 @@ public class MainActivity extends ActionBarActivity {
 
         isSearching=false;
 
-        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-        if (!prefs.contains(PREFS_ALERT_STORAGE)) {
-            editor.putString(PREFS_ALERT_STORAGE, "");
-            editor.commit();
-        }
+
     }
 
 
@@ -132,6 +126,11 @@ public class MainActivity extends ActionBarActivity {
     public void goAddAlert(View view) {
         Intent intent = new Intent(this, SetAlerts.class);
         intent.putExtra("FLIFOData",getFlifo());
+        startActivity(intent);
+    }
+
+    public void goViewAlerts(View view) {
+        Intent intent = new Intent(this, GetAlerts.class);
         startActivity(intent);
     }
 }

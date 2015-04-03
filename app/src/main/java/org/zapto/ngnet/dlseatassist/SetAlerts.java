@@ -1,14 +1,26 @@
 package org.zapto.ngnet.dlseatassist;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+
 
 public class SetAlerts extends ActionBarActivity {
+
+    public final static String MY_PREFS_NAME = "org.zapto.ngnet.dlseatassist";
+    public final static String PREFS_ALERT_STORAGE = "JSONAlerts";
+
+    AlertData flightAlertData;
 
     private TextView flightInfoView;
 
@@ -30,6 +42,29 @@ public class SetAlerts extends ActionBarActivity {
         flightInfoStr += flifo.longFlightDate + "\n\n";
 
         flightInfoView.setText(flightInfoStr);
+
+        try {
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+            if (!prefs.contains(PREFS_ALERT_STORAGE)) {
+                AlertData fAData = new AlertData();
+                ByteArrayOutputStream bo = new ByteArrayOutputStream();
+                ObjectOutputStream so = new ObjectOutputStream(bo);
+                so.writeObject(flightAlertData);
+                so.flush();
+                editor.putString(PREFS_ALERT_STORAGE,so.toString() );
+                editor.apply();
+            }
+
+            String objectString = prefs.toString();
+            byte b[] = objectString.getBytes();
+            ByteArrayInputStream bi = new ByteArrayInputStream(b);
+            ObjectInputStream si = new ObjectInputStream(bi);
+            AlertData fAData = (AlertData) si.readObject();
+            this.flightAlertData=fAData;
+        } catch (Exception e) {
+            return;
+        }
 
     }
 

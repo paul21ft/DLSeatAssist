@@ -6,16 +6,166 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="org.zapto.ngnet.dlseatassist.SetAlerts">
 
-    <TextView
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Flight Info"
-        android:id="@+id/listFlightInfo"
+        android:id="@+id/scrollView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Flight Info"
+                android:id="@+id/listFlightInfo"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <CheckBox
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Window"
+                android:id="@+id/checkWindow"
+                android:layout_below="@+id/listFlightInfo"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:checked="false" />
+
+            <CheckBox
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Aisle"
+                android:id="@+id/checkAisle"
+                android:layout_below="@+id/checkWindow"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:checked="false" />
+
+            <Spinner
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:id="@+id/cabinClass"
+                android:entries="@array/cabin_array"
+                android:layout_below="@+id/listFlightInfo"
+                android:layout_toRightOf="@+id/checkWindow"
+                android:layout_toEndOf="@+id/checkWindow" />
+
+            <CheckBox
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Bulkhead"
+                android:id="@+id/checkBulkhead"
+                android:layout_below="@+id/checkAisle"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:checked="false" />
+
+            <CheckBox
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="EC+ Only"
+                android:id="@+id/checkECOnly"
+                android:layout_below="@+id/checkBulkhead"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:checked="false" />
+
+            <CheckBox
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Not EC+"
+                android:id="@+id/checkNotEC"
+                android:layout_alignTop="@+id/checkAisle"
+                android:layout_toRightOf="@+id/checkAisle"
+                android:layout_toEndOf="@+id/checkAisle"
+                android:checked="false" />
+
+            <CheckBox
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Not Bulkhead"
+                android:id="@+id/checkNotBulk"
+                android:layout_below="@+id/checkNotEC"
+                android:layout_toRightOf="@+id/checkAisle"
+                android:layout_toEndOf="@+id/checkAisle"
+                android:checked="false" />
+
+            <CheckBox
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Not Preferred"
+                android:id="@+id/checkNotPrem"
+                android:layout_below="@+id/checkNotBulk"
+                android:layout_alignLeft="@+id/checkNotBulk"
+                android:layout_alignStart="@+id/checkNotBulk"
+                android:checked="false" />
+
+            <EditText
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="19C"
+                android:id="@+id/addSeatList"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/checkECOnly"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:layout_width="180dp"
+                android:layout_height="50dp"
+                android:text="Add Specific Seat"
+                android:id="@+id/button"
+                android:layout_alignTop="@+id/addSeatList"
+                android:layout_toRightOf="@+id/addSeatList"
+                android:layout_toEndOf="@+id/addSeatList" />
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Test Search Pattern"
+                android:layout_marginTop="20dp"
+                android:id="@+id/testSearch"
+                android:layout_below="@+id/addSeatList"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Test Search Results"
+                android:id="@+id/textView"
+                android:layout_below="@+id/testSearch"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Add Alert"
+                android:id="@+id/addAlert"
+                android:layout_marginLeft="30dp"
+                android:layout_alignTop="@+id/testSearch"
+                android:layout_toRightOf="@+id/testSearch"
+                android:layout_toEndOf="@+id/testSearch" />
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+
 </RelativeLayout>

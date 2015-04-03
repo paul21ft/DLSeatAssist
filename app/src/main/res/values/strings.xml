@@ -18,6 +18,12 @@
         <item>Nov</item>
         <item>Dec</item>
     </string-array>
+    <string name="cabin_prompt">Cabin</string>
+    <string-array name="cabin_array">
+        <item>Coach</item>
+        <item>Business</item>
+        <item>First</item>
+    </string-array>
     <string name="title_activity_set_alerts">SetAlerts</string>
     <string name="title_activity_get_alerts">GetAlerts</string>
 </resources>

@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by adev on 4/3/15.
  */
 public class FlightInfo implements Serializable {
-    public int flightNumber;
+    public Integer flightNumber;
     public String flightDate;
     public String longFlightDate;
     public String carrier;
