@@ -1,0 +1,133 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    >
+
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:paddingTop="50px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Flight Results"
+                android:id="@+id/resultText"
+                android:typeface="monospace"
+                android:layout_weight="0.16"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/goSearch" />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="Search"
+                android:id="@+id/goSearch"
+                android:onClick="goSearch"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="123dp" />
+
+            <EditText
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="DL"
+                android:id="@+id/flightCarrier"
+                android:maxLength="2"
+                android:inputType="textCapCharacters" />
+
+            <EditText
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:maxLength="4"
+                android:ems="10"
+                android:text="2182"
+                android:id="@+id/flightNumber"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/flightCarrier"
+                android:layout_toEndOf="@+id/flightCarrier" />
+
+            <EditText
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:id="@+id/flightOrig"
+                android:maxLength="3"
+                android:text="LAX"
+                android:layout_alignParentTop="true"
+                android:inputType="textCapCharacters"
+                android:layout_toRightOf="@+id/flightNumber"
+                android:layout_toEndOf="@+id/flightNumber" />
+
+            <EditText
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:id="@+id/flightDest"
+                android:maxLength="3"
+                android:text="JFK"
+                android:inputType="textCapCharacters"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/flightOrig"
+                android:layout_toEndOf="@+id/flightOrig" />
+
+            <EditText
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:ems="10"
+                android:maxLength="2"
+                android:text="18"
+                android:id="@+id/flightDay"
+                android:layout_below="@+id/flightCarrier"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/flightMonth"
+                android:entries="@array/month_array"
+                android:prompt="@string/month_prompt"
+                android:layout_below="@+id/flightNumber"
+                android:layout_toRightOf="@+id/flightCarrier"
+                android:layout_toLeftOf="@+id/flightOrig"
+                android:layout_toStartOf="@+id/flightOrig" />
+
+            <EditText
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/flightYear"
+                android:text="2015"
+                android:maxLength="4"
+                android:layout_alignBottom="@+id/flightDay"
+                android:layout_alignLeft="@+id/flightOrig"
+                android:layout_alignStart="@+id/flightOrig" />
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+
+
+</RelativeLayout>
+
