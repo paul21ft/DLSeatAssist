@@ -117,16 +117,18 @@
                 android:layout_height="50dp"
                 android:text="19C"
                 android:id="@+id/addSeatList"
+                android:maxLength="4"
                 android:layout_marginTop="20dp"
                 android:layout_below="@+id/checkECOnly"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
             <Button
-                android:layout_width="180dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:text="Add Specific Seat"
+                android:text="Add Seat"
                 android:id="@+id/button"
+                android:onClick="goAddSeat"
                 android:layout_alignTop="@+id/addSeatList"
                 android:layout_toRightOf="@+id/addSeatList"
                 android:layout_toEndOf="@+id/addSeatList" />
@@ -137,6 +139,7 @@
                 android:text="Test Search Pattern"
                 android:layout_marginTop="20dp"
                 android:id="@+id/testSearch"
+                android:onClick="goTestAlert"
                 android:layout_below="@+id/addSeatList"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
@@ -157,10 +160,21 @@
                 android:layout_height="50dp"
                 android:text="Add Alert"
                 android:id="@+id/addAlert"
+                android:onClick="goAddAlert"
                 android:layout_marginLeft="30dp"
                 android:layout_alignTop="@+id/testSearch"
                 android:layout_toRightOf="@+id/testSearch"
                 android:layout_toEndOf="@+id/testSearch" />
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="20dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="No Seats Added"
+                android:id="@+id/seatListView"
+                android:layout_below="@+id/addSeatList"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
 
         </RelativeLayout>

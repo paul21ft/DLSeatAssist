@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import java.io.ByteArrayInputStream;
@@ -13,6 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
+import java.util.List;
 
 
 public class SetAlerts extends ActionBarActivity {
@@ -21,6 +23,9 @@ public class SetAlerts extends ActionBarActivity {
     public final static String PREFS_ALERT_STORAGE = "JSONAlerts";
 
     AlertData flightAlertData;
+
+    private FlightInfo flifo;
+    public List<String> seatList;
 
     private TextView flightInfoView;
 
@@ -33,7 +38,7 @@ public class SetAlerts extends ActionBarActivity {
 
         Intent intent = getIntent();
 
-        FlightInfo flifo = (FlightInfo) intent.getSerializableExtra("FLIFOData");
+        flifo = (FlightInfo) intent.getSerializableExtra("FLIFOData");
 
         String flightInfoStr = "";
 
@@ -89,6 +94,20 @@ public class SetAlerts extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+    public void goAddSeat(View view) {
+
+    }
+
+    public void goAddAlert(View view) {
+
+    }
+
+    public void goTestAlert(View view){
+
     }
 
 }
