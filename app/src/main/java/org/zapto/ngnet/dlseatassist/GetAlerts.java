@@ -28,6 +28,37 @@ public class GetAlerts extends ActionBarActivity {
 
     private Integer activeDelete;
 
+    public void loadSavedAlerts() {
+        try {
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+            String objectString = prefs.getString(PREFS_ALERT_STORAGE,"");
+            if (objectString.length() == 0) {
+                this.flightAlertData = new AlertData();
+            } else {
+                this.flightAlertData = new AlertData(objectString);
+            }
+
+        } catch (Exception e) {
+            this.flightAlertData=new AlertData();
+            saveAlerts();
+            assert Boolean.TRUE;
+            return;
+        }
+    }
+
+    public boolean saveAlerts() {
+        try {
+            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+            editor.putString(PREFS_ALERT_STORAGE, this.flightAlertData.toJSONString());
+            editor.apply();
+            return true;
+        } catch (Exception e) {
+            assert Boolean.TRUE;
+            return false;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,28 +69,7 @@ public class GetAlerts extends ActionBarActivity {
         this.activeAlertText = (TextView) findViewById(R.id.activeAlertText);
 
 
-        try {
-            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-            if (!prefs.contains(PREFS_ALERT_STORAGE)) {
-                AlertData fAData = new AlertData();
-                ByteArrayOutputStream bo = new ByteArrayOutputStream();
-                ObjectOutputStream so = new ObjectOutputStream(bo);
-                so.writeObject(flightAlertData);
-                so.flush();
-                editor.putString(PREFS_ALERT_STORAGE,so.toString() );
-                editor.apply();
-            }
-
-            String objectString = prefs.toString();
-            byte b[] = objectString.getBytes();
-            ByteArrayInputStream bi = new ByteArrayInputStream(b);
-            ObjectInputStream si = new ObjectInputStream(bi);
-            AlertData fAData = (AlertData) si.readObject();
-            this.flightAlertData=fAData;
-        } catch (Exception e) {
-            return;
-        }
+        loadSavedAlerts();
 
         activeAlertText.setText(this.flightAlertData.alertListToString());
 
@@ -98,6 +108,7 @@ public class GetAlerts extends ActionBarActivity {
     }
 
     public void displayAlerts() {
+        assert Boolean.TRUE;
         activeAlertText.setText(this.flightAlertData.alertListToString());
     }
 
@@ -123,6 +134,8 @@ public class GetAlerts extends ActionBarActivity {
             displayAlerts();
         }
 
+        saveAlerts();
+
     }
 
     public void goDeleteAllAlerts(View view) {
@@ -137,6 +150,8 @@ public class GetAlerts extends ActionBarActivity {
             activeDelete=0;
             displayAlerts();
         }
+
+        saveAlerts();
     }
 
 

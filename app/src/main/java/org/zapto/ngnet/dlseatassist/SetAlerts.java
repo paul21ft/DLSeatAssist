@@ -44,38 +44,30 @@ public class SetAlerts extends ActionBarActivity {
         try {
             SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
             SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-            if (!prefs.contains(PREFS_ALERT_STORAGE)) {
-                AlertData fAData = new AlertData();
-                ByteArrayOutputStream bo = new ByteArrayOutputStream();
-                ObjectOutputStream so = new ObjectOutputStream(bo);
-                so.writeObject(flightAlertData);
-                so.flush();
-                editor.putString(PREFS_ALERT_STORAGE,so.toString() );
-                editor.apply();
+            String objectString = prefs.getString(PREFS_ALERT_STORAGE,"");
+            if (objectString.length() == 0) {
+                this.flightAlertData = new AlertData();
+            } else {
+                this.flightAlertData = new AlertData(objectString);
             }
+            assert Boolean.TRUE;
 
-            String objectString = prefs.toString();
-            byte b[] = objectString.getBytes();
-            ByteArrayInputStream bi = new ByteArrayInputStream(b);
-            ObjectInputStream si = new ObjectInputStream(bi);
-            AlertData fAData = (AlertData) si.readObject();
-            this.flightAlertData=fAData;
         } catch (Exception e) {
+            this.flightAlertData=new AlertData();
+            saveAlerts();
+            assert Boolean.TRUE;
             return;
         }
     }
-    
+
     public boolean saveAlerts() {
         try {
             SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-            ByteArrayOutputStream bo = new ByteArrayOutputStream();
-            ObjectOutputStream so = new ObjectOutputStream(bo);
-            so.writeObject(flightAlertData);
-            so.flush();
-            editor.putString(PREFS_ALERT_STORAGE, so.toString());
+            editor.putString(PREFS_ALERT_STORAGE, this.flightAlertData.toJSONString());
             editor.apply();
             return true;
         } catch (Exception e) {
+            assert Boolean.TRUE;
             return false;
         }
     }
@@ -100,6 +92,7 @@ public class SetAlerts extends ActionBarActivity {
 
         flightInfoView.setText(flightInfoStr);
 
+        loadSavedAlerts();
 
 
         this.seatList=new ArrayList<String>();
@@ -144,6 +137,7 @@ public class SetAlerts extends ActionBarActivity {
         boolean notBulkhead = ((CheckBox) findViewById(R.id.checkNotBulk)).isChecked();
         boolean notNormal = false; //((CheckBox) findViewById(R.id.checkNotNorm)).isChecked();
         boolean ECOnly = ((CheckBox) findViewById(R.id.checkECOnly)).isChecked();
+        boolean anySeat = ((CheckBox) findViewById(R.id.checkAnySeat)).isChecked();
 
         Spinner classSpin = (Spinner) findViewById(R.id.cabinClass);
         Integer classID = classSpin.getSelectedItemPosition();
@@ -163,6 +157,7 @@ public class SetAlerts extends ActionBarActivity {
         this.activeSeat.ECOnly=ECOnly;
         this.activeSeat.flifo=this.flifo;
         this.activeSeat.isClass=isClass;
+        this.activeSeat.anySeat=anySeat;
     }
 
 
@@ -192,25 +187,26 @@ public class SetAlerts extends ActionBarActivity {
 
     public void goAddAlert(View view) {
         this.loadSeatParams();
-        if (this.flightAlertData.addAlert(this.activeSeat) > 0)
+        if (this.flightAlertData.addAlert(this.activeSeat) >= 0)
             testResultList.setText("Added Alert");
         else
             testResultList.setText("Duplicate Found, Updated Existing");
 
+        saveAlerts();
     }
 
 
 
-    public void displayTestResults() {
+    public static String displayTestResults(selectSeatParams testSeatParams, DLSeatInterface testDLSI, AlertData testAlertData) {
         //Integer delIdx = this.flightAlertData.addAlert(this.activeSeat);
 
         //Display Valid Seats
 
-         Iterator it = DLSI.seatLayoutMap.entrySet().iterator();
+         Iterator it = testDLSI.seatLayoutMap.entrySet().iterator();
 
         String retstr = "";
 
-        if (flightAlertData.testAlert(activeSeat,DLSI))
+        if (testAlertData.testAlert(testSeatParams,testDLSI))
             retstr += "Seat Already Found!\n\n";
         else
             retstr += "No Available Seats (yet)\n\n";
@@ -227,10 +223,10 @@ public class SetAlerts extends ActionBarActivity {
             for (int i=0;i<layout.length();i++) {
                 String newBulkStr = " ";
                 String seatName = rowNumber.toString() + layout.charAt(i);
-                if (DLSI.seatDataMap.containsKey(seatName)) {
-                    seatDataClass sdc = DLSI.seatDataMap.get(seatName);
+                if (testDLSI.seatDataMap.containsKey(seatName)) {
+                    seatDataClass sdc = testDLSI.seatDataMap.get(seatName);
                     sdc.assignDisplayString();
-                    if (flightAlertData.testSeat(activeSeat,sdc,true))
+                    if (testAlertData.testSeat(testSeatParams,sdc,true))
                         newRow += sdc.dispStr;
                     else
                         newRow += '-';
@@ -258,7 +254,7 @@ public class SetAlerts extends ActionBarActivity {
         }
 
 
-        this.testResultList.setText(retstr);
+        return retstr;
 
         //this.flightAlertData.removeAlert(delIdx);
 
@@ -283,7 +279,8 @@ public class SetAlerts extends ActionBarActivity {
                         public void run() {
                             testResultList.setText("Parsing Flight Information....");
                             isSearching=false;
-                            displayTestResults();
+                            String newMsg = displayTestResults(activeSeat,DLSI,flightAlertData);
+                            testResultList.setText(newMsg);
                         }
                     });
 
@@ -293,12 +290,18 @@ public class SetAlerts extends ActionBarActivity {
         }else if(DLSI != null && !DLSI.successful) {
             testResultList.setText("INVALID FLIGHT INFORMATION!!!");
         }else if(DLSI != null){
-            displayTestResults();
+            testResultList.setText(displayTestResults(activeSeat,DLSI,flightAlertData));
         }else {//Search Running
             testResultList.setText("Still Loading Flight Information....");
         }
 
 
+    }
+
+    public void goClearSeatList(View view) {
+        this.seatList.removeAll(this.seatList);
+        TextView seatListView = (TextView) findViewById(R.id.seatListView);
+        seatListView.setText("List Cleared");
     }
 
 }

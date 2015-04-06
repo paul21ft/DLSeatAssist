@@ -1,19 +1,54 @@
 package org.zapto.ngnet.dlseatassist;
 
-import java.io.Serializable;
+
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * Created by adev on 4/3/15.
  */
 
-public class AlertData implements Serializable {
+public class AlertData  {
 
     private List<selectSeatParams> alertList;
+
+    public String toJSONString() {
+
+        JSONArray jarr = new JSONArray();
+
+        Iterator it=alertList.iterator();
+        while(it.hasNext()) {
+            selectSeatParams sSP = (selectSeatParams) it.next();
+            jarr.put(sSP.toJSONString());
+        }
+
+        return jarr.toString();
+
+    }
+
+    public AlertData(String jstr) {
+        this.alertList=new LinkedList<selectSeatParams>();
+
+        try {
+            JSONArray jarr = new JSONArray(jstr);
+
+            for(int i=0;i<jarr.length();i++) {
+                selectSeatParams sSP = new selectSeatParams(jarr.getString(i));
+                alertList.add(sSP);
+            }
+
+        }catch (Exception e) {
+            assert Boolean.TRUE;
+            return;
+        }
+
+    }
 
 
 
@@ -101,6 +136,12 @@ public class AlertData implements Serializable {
             return true;
 
         if ((seatData.noStowage | seatData.bulkhead) & sSP.isBulkhead)
+            return true;
+
+        if (seatData.economyComfortFlag & sSP.ECOnly)
+            return true;
+
+        if (sSP.anySeat)
             return true;
 
 

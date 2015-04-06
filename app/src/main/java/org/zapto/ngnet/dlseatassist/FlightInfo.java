@@ -1,5 +1,7 @@
 package org.zapto.ngnet.dlseatassist;
 
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
@@ -40,5 +42,41 @@ public class FlightInfo implements Serializable {
             return false;
 
         return true;
+    }
+
+    public String toJSONString() {
+        try {
+            JSONObject jobj = new JSONObject();
+            jobj.put("flightNumber", flightNumber);
+            jobj.put("flightDate", flightDate);
+            jobj.put("longFlightDate", longFlightDate);
+            jobj.put("carrier", carrier);
+            jobj.put("flightOrig", flightOrig);
+            jobj.put("flightDest", flightDest);
+            return jobj.toString();
+        } catch (Exception e) {
+            assert Boolean.TRUE;
+            return "";
+        }
+    }
+
+    public FlightInfo(String jstr) {
+        loadJSONString(jstr);
+    }
+
+    public void loadJSONString(String jstr) {
+        try {
+            JSONObject jobj = new JSONObject(jstr);
+            flightNumber = jobj.getInt("flightNumber");
+            flightDate = jobj.getString("flightDate");
+            longFlightDate = jobj.getString("longFlightDate");
+            carrier = jobj.getString("carrier");
+            flightOrig = jobj.getString("flightOrig");
+            flightDest = jobj.getString("flightDest");
+        } catch (Exception e) {
+            assert Boolean.TRUE;
+            //nothing
+        }
+
     }
 }
