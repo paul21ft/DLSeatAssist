@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
  */
 public class DLSeatInterface {
 
-    private Boolean successful;
+    public Boolean successful;
 
     private FlightInfo flifo;
 
@@ -54,7 +54,7 @@ public class DLSeatInterface {
     private HttpContext localContext;
     private String seatDataStr;
     private String jsesid="NONE";
-    private TreeMap<Integer,String> seatLayoutMap;
+    public TreeMap<Integer,String> seatLayoutMap;
 
     public HashMap<String,seatDataClass> seatDataMap;
 
@@ -682,11 +682,14 @@ public class DLSeatInterface {
         */
         this.flifo=tflifo;
 
+        this.successful=false;
+
         try {
             this.prepCookie();
             this.loadSeatData();
             this.parseSeatData();
-            this.successful=true;
+            if(this.seatDataMap.size() > 0)
+                this.successful=true;
         } catch (Exception e) {
             this.successful=false;
         }

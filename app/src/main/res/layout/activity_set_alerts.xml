@@ -149,8 +149,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Test Search Results"
-                android:id="@+id/textView"
+                android:text="(Test Search Results)"
+                android:id="@+id/testResultList"
                 android:layout_below="@+id/testSearch"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />

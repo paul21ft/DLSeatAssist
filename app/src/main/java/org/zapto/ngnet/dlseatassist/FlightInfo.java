@@ -23,4 +23,22 @@ public class FlightInfo implements Serializable {
         this.flightDest=tflightDest;
         this.carrier=tcarrier;
     }
+
+    public boolean equals(FlightInfo other) {
+
+        if (!this.flightNumber.equals(other.flightNumber))
+            return false;
+        if (!this.flightDate.equals(other.flightDate))
+            return false;
+        if (!this.longFlightDate.equals(other.longFlightDate))
+            return false;
+        if (!this.carrier.equals(other.carrier))
+            return false;
+        if (!this.flightOrig.equals(other.flightOrig))
+            return false;
+        if (!this.flightDest.equals(other.flightDest))
+            return false;
+
+        return true;
+    }
 }

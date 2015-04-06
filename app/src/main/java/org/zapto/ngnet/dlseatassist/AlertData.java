@@ -10,47 +10,24 @@ import java.util.Map;
 /**
  * Created by adev on 4/3/15.
  */
+
 public class AlertData implements Serializable {
 
-    private List<seatSelectParams> alertList;
+    private List<selectSeatParams> alertList;
 
-    private class seatSelectParams implements Serializable {
-        public boolean isWindow;
-        public boolean isAisle;
-        public boolean isBulkhead;
-        public boolean notPrem;
-        public boolean notEC;
-        public boolean notBulkhead;
-        public boolean notNormal;
-        public boolean ECOnly;
-        public String isClass;
-        public FlightInfo flifo;
 
-        public List<String> isSeat;
 
-        public seatSelectParams(List<String> isSeatList) {
-            this.isSeat = new ArrayList<String>(isSeatList);
+    public Integer addAlert(selectSeatParams sSP) {
+
+        Iterator it = this.alertList.iterator();
+        while(it.hasNext()) {
+            selectSeatParams otherSSP = (selectSeatParams) it.next();
+            if (sSP.flifo.equals(otherSSP.flifo)) {
+                this.alertList.remove(otherSSP);
+                this.alertList.add(sSP);
+                return -1*this.alertList.indexOf(sSP);
+            }
         }
-
-    }
-
-    public Integer addAlert(boolean isWindow, boolean isAisle,
-                         boolean isBulkhead, boolean notPrem, boolean notEC, boolean notBulkhead,
-                         boolean notNormal, boolean ECOnly, String isClass,
-                         FlightInfo flifo, List<String> isSeat) {
-
-        seatSelectParams sSP = new seatSelectParams(isSeat);
-
-        sSP.isWindow=isWindow;
-        sSP.isAisle=isAisle;
-        sSP.isBulkhead=isBulkhead;
-        sSP.notPrem=notPrem;
-        sSP.notEC=notEC;
-        sSP.notBulkhead=notBulkhead;
-        sSP.notNormal=notNormal;
-        sSP.ECOnly=ECOnly;
-        sSP.flifo=flifo;
-        sSP.isClass=isClass;
 
         this.alertList.add(sSP);
         return this.alertList.indexOf(sSP);
@@ -74,7 +51,7 @@ public class AlertData implements Serializable {
         String alertList = "";
         Iterator it = this.alertList.iterator();
         while (it.hasNext()) {
-            seatSelectParams sSP = (seatSelectParams) it.next();
+            selectSeatParams sSP = (selectSeatParams) it.next();
             Integer alertIdx = this.alertList.indexOf(sSP);
             alertList += alertIdx.toString() + ": ";
             alertList += sSP.flifo.carrier + "" + sSP.flifo.flightNumber.toString();
@@ -86,7 +63,7 @@ public class AlertData implements Serializable {
         return alertList;
     }
 
-    public boolean testSeat (seatSelectParams sSP, seatDataClass seatData, boolean showUnavailable) {
+    public boolean testSeat (selectSeatParams sSP, seatDataClass seatData, boolean showUnavailable) {
 
         if (!seatData.cabinCode.equals(sSP.isClass))
             return false;
@@ -133,13 +110,12 @@ public class AlertData implements Serializable {
     }
 
     public boolean testAlert(Integer alertIdx) {
-        seatSelectParams sSP = this.alertList.get(alertIdx);
+        selectSeatParams sSP = this.alertList.get(alertIdx);
         DLSeatInterface DLSI = new DLSeatInterface(sSP.flifo);
-        return testAlert(alertIdx,DLSI);
+        return testAlert(sSP,DLSI);
     }
 
-    public boolean testAlert(Integer alertIdx, DLSeatInterface DLSI) {
-        seatSelectParams sSP = this.alertList.get(alertIdx);
+    public boolean testAlert(selectSeatParams sSP, DLSeatInterface DLSI) {
         if (sSP==null)
             return false;
         Iterator it = DLSI.seatDataMap.entrySet().iterator();
@@ -158,7 +134,7 @@ public class AlertData implements Serializable {
     }
 
     public AlertData() {
-        this.alertList=new LinkedList<seatSelectParams>();
+        this.alertList=new LinkedList<selectSeatParams>();
     }
 
 }
