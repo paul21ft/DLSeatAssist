@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 
 public class GetAlerts extends ActionBarActivity {
@@ -49,7 +49,7 @@ public class GetAlerts extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -96,6 +96,8 @@ public class GetAlerts extends ActionBarActivity {
         if (activeDelete == 0) {
             delBtn.setText("Delete " + delNumInt.toString() + "?");
             activeDelete=delNumInt;
+            Toast tm = Toast.makeText(getApplicationContext(),"Tap Again To Delete",Toast.LENGTH_LONG);
+            tm.show();
         }else{
             delBtn.setText("Delete Alert");
             handleDelete(activeDelete,false);
@@ -113,6 +115,8 @@ public class GetAlerts extends ActionBarActivity {
         if (activeDelete == 0) {
             delBtn.setText("Delete All??");
             activeDelete=1;
+            Toast tm = Toast.makeText(getApplicationContext(),"Tap Again To Delete",Toast.LENGTH_LONG);
+            tm.show();
         }else{
             delBtn.setText("Delete All");
             handleDelete(activeDelete,true);

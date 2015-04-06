@@ -1,6 +1,8 @@
 package org.zapto.ngnet.dlseatassist;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +12,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.Set;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -55,8 +59,43 @@ public class MainActivity extends ActionBarActivity {
 
         isSearching=false;
 
+        //Some other initilization of preferences
+        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
+
+        if (!prefs.contains(Constants.PREFS_SETTINGS_ENABLE_ALERTS)) {
+            SharedPreferences.Editor editor = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE).edit();
+            editor.putBoolean(Constants.PREFS_SETTINGS_ENABLE_ALERTS,true);
+            editor.apply();
+        }
 
 
+        updateAlertInfo();
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        updateAlertInfo();
+    }
+
+    private void updateAlertInfo() {
+        TextView aText = (TextView) findViewById(R.id.alertInfo);
+        String aStr = "";
+
+        AlertData aData =  AlertData.loadSavedAlerts(getApplicationContext());
+
+        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
+        boolean enableAlerts = prefs.getBoolean(Constants.PREFS_SETTINGS_ENABLE_ALERTS,true);
+
+        if(enableAlerts) {
+            aStr += "Alerts ENABLED: ";
+            aStr += aData.getNumAlerts().toString() + " Active Alerts";
+        }else{
+            aStr += "Alerts ----DISABLED---- (Enable in Settings)";
+        }
+
+        aText.setText(aStr);
     }
 
 
@@ -76,6 +115,8 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -133,4 +174,7 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(this, GetAlerts.class);
         startActivity(intent);
     }
+
+
+
 }

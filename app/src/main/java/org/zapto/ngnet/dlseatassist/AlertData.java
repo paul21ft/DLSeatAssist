@@ -152,6 +152,10 @@ public class AlertData  {
         return false;
     }
 
+    public selectSeatParams getSSP(Integer alertIdx) {
+        return this.alertList.get(alertIdx);
+    }
+
     public boolean testAlert(Integer alertIdx) {
         selectSeatParams sSP = this.alertList.get(alertIdx);
         DLSeatInterface DLSI = new DLSeatInterface(sSP.flifo);

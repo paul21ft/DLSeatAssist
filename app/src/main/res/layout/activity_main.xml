@@ -37,15 +37,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_below="@+id/goSearch" />
 
-            <Button
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:text="Search"
-                android:id="@+id/goSearch"
-                android:onClick="goSearch"
-                android:layout_below="@+id/flightDay"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+
 
             <EditText
                 android:layout_width="50dp"
@@ -123,6 +115,16 @@
                 android:layout_alignBottom="@+id/flightDay"
                 android:layout_alignLeft="@+id/flightOrig"
                 android:layout_alignStart="@+id/flightOrig" />
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="Search"
+                android:id="@+id/goSearch"
+                android:onClick="goSearch"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/flightDay"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <Button
                 android:layout_width="100dp"
@@ -130,6 +132,7 @@
                 android:text="Add Alert"
                 android:id="@+id/addAlertBtn"
                 android:onClick="goAddAlert"
+                android:layout_marginLeft="20dp"
                 android:layout_alignTop="@+id/goSearch"
                 android:layout_toRightOf="@+id/goSearch"
                 android:layout_toEndOf="@+id/goSearch" />
@@ -140,15 +143,23 @@
                 android:text="View Alerts"
                 android:id="@+id/viewAlertBtn"
                 android:onClick="goViewAlerts"
+                android:layout_marginLeft="20dp"
                 android:layout_alignTop="@+id/goSearch"
                 android:layout_toRightOf="@+id/addAlertBtn"
                 android:layout_toEndOf="@+id/addAlertBtn" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alert Information View"
+                android:id="@+id/alertInfo"
+                android:layout_below="@+id/flightDay"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
 
         </RelativeLayout>
     </ScrollView>
-
-
 
 
 </RelativeLayout>

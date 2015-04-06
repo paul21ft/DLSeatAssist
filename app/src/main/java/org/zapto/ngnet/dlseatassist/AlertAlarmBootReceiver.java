@@ -22,7 +22,7 @@ public class AlertAlarmBootReceiver extends BroadcastReceiver {
                 PendingIntent.getBroadcast(context, 0, new Intent(context, AlertAlarmReceiver.class), 0);
 
         alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, Constants.ALARM_TRIGGER_AT_TIME,
-                Constants.ALARM_INTERVAL, pendingIntent);
+                Constants.ALARM_INTERVAL_HOUR, pendingIntent);
 
     }
 }
