@@ -3,11 +3,14 @@
     package="org.zapto.ngnet.dlseatassist" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECEIVE_MY_PACKAGE_REPLACED" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name=".DLSeatAssistApp"
         android:theme="@style/AppTheme"
         android:versionCode="2"
         android:versionName="1.1" >
@@ -28,6 +31,18 @@
             android:name=".GetAlerts"
             android:label="@string/title_activity_get_alerts" >
         </activity>
+
+        <receiver android:name=".AlertAlarmBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".AlertAlarmReceiver" />
+        <service android:name=".AlertAlarmService" />
+
+
     </application>
 
 </manifest>

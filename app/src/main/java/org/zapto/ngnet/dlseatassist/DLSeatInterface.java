@@ -48,7 +48,7 @@ public class DLSeatInterface {
     private String flightOrig;
     private String flightDest;
     */
-    private String eqCode;
+    //private String eqCode;
     private HttpClient httpclient;
     private CookieStore cookieStore;
     private HttpContext localContext;
@@ -58,7 +58,7 @@ public class DLSeatInterface {
 
     public HashMap<String,seatDataClass> seatDataMap;
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+
 
     private String buildSeatUrl() {
         String turl;
@@ -132,7 +132,7 @@ public class DLSeatInterface {
             //Handle error here
             int i=0;
             i=i+1;
-            Log.d(TAG, "DLSI.prepCookie()", e);
+            Log.d(Constants.TAG, "DLSI.prepCookie()", e);
         }
 
 
@@ -141,7 +141,7 @@ public class DLSeatInterface {
     private void parseSeatData() {
         String sdata=this.seatDataStr;
         String[] splitData = sdata.split(";");
-        HashMap<String,String> rawVarData = new HashMap<>();
+        HashMap<String,String> rawVarData = new HashMap<String,String>();
         HashSet<String> varNames = new HashSet<String>();
 
         //Load rawVarData
@@ -178,10 +178,13 @@ public class DLSeatInterface {
         this.seatLayoutMap=new TreeMap<>();
         for(String varStr : varNames) {
 
+            /*
+
             if (rawVarData.containsKey(varStr + ".equipmentCode")) {
                 String eqCode = rawVarData.get(varStr + ".equipmentCode");
                 this.eqCode=eqCode;
             }
+            */
             if (!rawVarData.containsKey(varStr + ".seatConfiguration"))
                 continue;
 
@@ -193,7 +196,7 @@ public class DLSeatInterface {
             String cabinCode = rawVarData.get(varStr+".cabinCode");
 
 
-            for (int i=0;i<200;i++) {
+            for (int i=0;i<100;i++) {
                 if (rawVarData.containsKey(seatRowVar+"["+i+"]")) {
                     String rowVar = rawVarData.get(seatRowVar + "[" + i + "]");
                     String rowNumStr = rawVarData.get(rowVar + ".rowNumber");
@@ -219,7 +222,7 @@ public class DLSeatInterface {
                                 sdc.window=true;
                             if (seatConfig.length() > (sdc.columnIdx + 1) && seatConfig.charAt(sdc.columnIdx+1) == '|')
                                 sdc.aisle=true;
-                            if (sdc.columnIdx > 0 && seatConfig.charAt(sdc.columnIdx-1) == '|')
+                            if (sdc.columnIdx > 0 && (sdc.columnIdx-1 >= seatConfig.length() || seatConfig.charAt(sdc.columnIdx-1) == '|'))
                                 sdc.aisle=true;
                             sdc.rowNumber = rowNumber;
                             this.seatLayoutMap.put(rowNumber,seatConfig);
@@ -357,10 +360,10 @@ public class DLSeatInterface {
             seatDataStr= EntityUtils.toString(resp.getEntity());
             seatDataStr=seatDataStr.replace("\n","").replace("\r","");
             this.seatDataStr=seatDataStr;
-            this.parseSeatData();
+            //this.parseSeatData();
 
         }catch(Exception e) {
-            Log.d(TAG,"DLSI.loadSeatData()",e);
+            Log.d(Constants.TAG,"DLSI.loadSeatData()",e);
         }
 
 
@@ -685,12 +688,23 @@ public class DLSeatInterface {
         this.successful=false;
 
         try {
+            long timeBefore, timeAfter;
+            timeBefore = System.currentTimeMillis();
             this.prepCookie();
+            timeAfter = System.currentTimeMillis();
+            Log.d(Constants.TAG,"Prep Cookie Time: " + (timeAfter-timeBefore));
+            timeBefore=timeAfter;
             this.loadSeatData();
+            timeAfter = System.currentTimeMillis();
+            Log.d(Constants.TAG,"Load Seat Data Time: " + (timeAfter-timeBefore));
+            timeBefore=timeAfter;
             this.parseSeatData();
+            timeAfter = System.currentTimeMillis();
+            Log.d(Constants.TAG,"Parse Seat Data Time: " + (timeAfter-timeBefore));
             if(this.seatDataMap.size() > 0)
                 this.successful=true;
         } catch (Exception e) {
+            Log.d(Constants.TAG,"Search Failed: " ,e);
             this.successful=false;
         }
 

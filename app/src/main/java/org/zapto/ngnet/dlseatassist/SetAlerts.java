@@ -1,5 +1,6 @@
 package org.zapto.ngnet.dlseatassist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
@@ -35,49 +36,24 @@ public class SetAlerts extends ActionBarActivity {
     public List<String> seatList;
     public Boolean isSearching;
 
-    private TextView flightInfoView;
+    private Context activeContext;
+
+
     private TextView testResultList;
 
     private selectSeatParams activeSeat;
 
-    public void loadSavedAlerts() {
-        try {
-            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-            String objectString = prefs.getString(PREFS_ALERT_STORAGE,"");
-            if (objectString.length() == 0) {
-                this.flightAlertData = new AlertData();
-            } else {
-                this.flightAlertData = new AlertData(objectString);
-            }
-            assert Boolean.TRUE;
 
-        } catch (Exception e) {
-            this.flightAlertData=new AlertData();
-            saveAlerts();
-            assert Boolean.TRUE;
-            return;
-        }
-    }
-
-    public boolean saveAlerts() {
-        try {
-            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-            editor.putString(PREFS_ALERT_STORAGE, this.flightAlertData.toJSONString());
-            editor.apply();
-            return true;
-        } catch (Exception e) {
-            assert Boolean.TRUE;
-            return false;
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_alerts);
 
-        this.flightInfoView = (TextView) findViewById(R.id.listFlightInfo);
+        activeContext=getApplicationContext();
+
+        TextView flightInfoView;
+        flightInfoView = (TextView) findViewById(R.id.listFlightInfo);
         this.testResultList = (TextView) findViewById(R.id.testResultList);
 
         Intent intent = getIntent();
@@ -92,7 +68,7 @@ public class SetAlerts extends ActionBarActivity {
 
         flightInfoView.setText(flightInfoStr);
 
-        loadSavedAlerts();
+        flightAlertData = AlertData.loadSavedAlerts(activeContext);
 
 
         this.seatList=new ArrayList<String>();
@@ -106,7 +82,7 @@ public class SetAlerts extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_set_alerts, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -192,7 +168,7 @@ public class SetAlerts extends ActionBarActivity {
         else
             testResultList.setText("Duplicate Found, Updated Existing");
 
-        saveAlerts();
+        flightAlertData.saveAlerts(activeContext);
     }
 
 

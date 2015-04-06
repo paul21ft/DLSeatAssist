@@ -1,9 +1,11 @@
 package org.zapto.ngnet.dlseatassist;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import org.json.JSONArray;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -176,6 +178,44 @@ public class AlertData  {
 
     public AlertData() {
         this.alertList=new LinkedList<selectSeatParams>();
+    }
+
+
+    public static AlertData loadSavedAlerts(Context context) {
+        AlertData flightAlertData;
+        try {
+            SharedPreferences prefs = context.getSharedPreferences(Constants.MY_PREFS_NAME, context.MODE_PRIVATE);
+            //SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+            String objectString = prefs.getString(Constants.PREFS_ALERT_STORAGE,"");
+            if (objectString.length() == 0) {
+                flightAlertData = new AlertData();
+            } else {
+                flightAlertData = new AlertData(objectString);
+            }
+
+        } catch (Exception e) {
+            flightAlertData=new AlertData();
+            flightAlertData.saveAlerts(context);
+            assert Boolean.TRUE;
+        }
+
+        return flightAlertData;
+    }
+
+    public boolean saveAlerts(Context context) {
+        try {
+            SharedPreferences.Editor editor = context.getSharedPreferences(Constants.MY_PREFS_NAME, context.MODE_PRIVATE).edit();
+            editor.putString(Constants.PREFS_ALERT_STORAGE, this.toJSONString());
+            editor.apply();
+            return true;
+        } catch (Exception e) {
+            assert Boolean.TRUE;
+            return false;
+        }
+    }
+
+    public Integer getNumAlerts() {
+        return this.alertList.size();
     }
 
 }

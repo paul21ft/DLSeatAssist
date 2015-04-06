@@ -1,6 +1,6 @@
 package org.zapto.ngnet.dlseatassist;
 
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,16 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 
 public class GetAlerts extends ActionBarActivity {
 
-    public final static String MY_PREFS_NAME = "org.zapto.ngnet.dlseatassist";
-    public final static String PREFS_ALERT_STORAGE = "JSONAlerts";
+
 
 
     private AlertData flightAlertData;
@@ -28,48 +23,23 @@ public class GetAlerts extends ActionBarActivity {
 
     private Integer activeDelete;
 
-    public void loadSavedAlerts() {
-        try {
-            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-            String objectString = prefs.getString(PREFS_ALERT_STORAGE,"");
-            if (objectString.length() == 0) {
-                this.flightAlertData = new AlertData();
-            } else {
-                this.flightAlertData = new AlertData(objectString);
-            }
+    private Context activeContext;
 
-        } catch (Exception e) {
-            this.flightAlertData=new AlertData();
-            saveAlerts();
-            assert Boolean.TRUE;
-            return;
-        }
-    }
 
-    public boolean saveAlerts() {
-        try {
-            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-            editor.putString(PREFS_ALERT_STORAGE, this.flightAlertData.toJSONString());
-            editor.apply();
-            return true;
-        } catch (Exception e) {
-            assert Boolean.TRUE;
-            return false;
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_alerts);
 
+        activeContext=getApplicationContext();
+
         this.activeDelete=0;
 
         this.activeAlertText = (TextView) findViewById(R.id.activeAlertText);
 
 
-        loadSavedAlerts();
+        flightAlertData = AlertData.loadSavedAlerts(activeContext);
 
         activeAlertText.setText(this.flightAlertData.alertListToString());
 
@@ -79,7 +49,7 @@ public class GetAlerts extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_get_alerts, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -108,7 +78,6 @@ public class GetAlerts extends ActionBarActivity {
     }
 
     public void displayAlerts() {
-        assert Boolean.TRUE;
         activeAlertText.setText(this.flightAlertData.alertListToString());
     }
 
@@ -134,7 +103,7 @@ public class GetAlerts extends ActionBarActivity {
             displayAlerts();
         }
 
-        saveAlerts();
+        flightAlertData.saveAlerts(activeContext);
 
     }
 
@@ -151,7 +120,7 @@ public class GetAlerts extends ActionBarActivity {
             displayAlerts();
         }
 
-        saveAlerts();
+        flightAlertData.saveAlerts(activeContext);
     }
 
 

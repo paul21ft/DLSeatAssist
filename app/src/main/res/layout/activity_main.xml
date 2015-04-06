@@ -22,17 +22,16 @@
         android:layout_alignParentEnd="true" >
 
         <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <TextView
-                android:paddingTop="50px"
+                android:paddingTop="25dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Flight Results"
                 android:id="@+id/resultText"
                 android:typeface="monospace"
-                android:layout_weight="0.16"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
@@ -62,7 +61,7 @@
                 android:inputType="number"
                 android:maxLength="4"
                 android:ems="10"
-                android:text="2182"
+                android:text="275"
                 android:id="@+id/flightNumber"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/flightCarrier"
@@ -73,7 +72,7 @@
                 android:layout_height="50dp"
                 android:id="@+id/flightOrig"
                 android:maxLength="3"
-                android:text="LAX"
+                android:text="DTW"
                 android:layout_alignParentTop="true"
                 android:inputType="textCapCharacters"
                 android:layout_toRightOf="@+id/flightNumber"
@@ -84,7 +83,7 @@
                 android:layout_height="50dp"
                 android:id="@+id/flightDest"
                 android:maxLength="3"
-                android:text="JFK"
+                android:text="NRT"
                 android:inputType="textCapCharacters"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/flightOrig"
@@ -109,7 +108,7 @@
                 android:entries="@array/month_array"
                 android:prompt="@string/month_prompt"
                 android:layout_below="@+id/flightNumber"
-                android:layout_toRightOf="@+id/flightCarrier"
+                android:layout_toRightOf="@+id/flightDay"
                 android:layout_toLeftOf="@+id/flightOrig"
                 android:layout_toStartOf="@+id/flightOrig" />
 

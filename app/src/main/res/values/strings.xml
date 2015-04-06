@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">DL Seat Assist</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="month_prompt">Nov</string>
     <string-array name="month_array">
@@ -18,12 +17,11 @@
         <item>Nov</item>
         <item>Dec</item>
     </string-array>
-    <string name="cabin_prompt">Cabin</string>
     <string-array name="cabin_array">
         <item>Coach</item>
         <item>Business</item>
         <item>First</item>
     </string-array>
-    <string name="title_activity_set_alerts">SetAlerts</string>
-    <string name="title_activity_get_alerts">GetAlerts</string>
+    <string name="title_activity_set_alerts">Add New Alert</string>
+    <string name="title_activity_get_alerts">Manage Active Alerts</string>
 </resources>

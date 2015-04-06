@@ -1,11 +1,9 @@
 package org.zapto.ngnet.dlseatassist;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
-import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
     private Spinner flightMonth;
     private EditText flightYear;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -55,6 +54,7 @@ public class MainActivity extends ActionBarActivity {
         this.flightYear = (EditText) findViewById(R.id.flightYear);
 
         isSearching=false;
+
 
 
     }
