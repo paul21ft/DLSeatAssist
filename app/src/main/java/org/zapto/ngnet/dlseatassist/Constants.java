@@ -11,7 +11,7 @@ public class Constants {
 
     //Interval to trigger alarm for checking alerts--may not run all alerts then
     //public static final long ALARM_INTERVAL_HOUR = AlarmManager.INTERVAL_HOUR;
-    public static final long ALARM_INTERVAL_HOUR = 3600000;
+    public static final long ALARM_INTERVAL_HOUR = 60000*60;
     public static final long ALARM_INTERVAL_DAY = 3600000*24;
     //public static final long ALARM_INTERVAL = 120000; //Static 2 minutes
 

@@ -13,7 +13,7 @@ public class AlertAlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent arg1) {
-        Log.d(Constants.TAG, "AlertAlarm Receiver Invoked, starting DealService in background");
+        Log.d(Constants.TAG, "AlertAlarm Receiver Invoked, starting AlertAlarm Service in background");
         context.startService(new Intent(context, AlertAlarmService.class));
 
         // For our recurring task, we'll just display a message

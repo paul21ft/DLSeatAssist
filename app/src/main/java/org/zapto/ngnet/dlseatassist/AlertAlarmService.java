@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -40,18 +41,24 @@ public class AlertAlarmService extends IntentService {
 
         for(int i=0;i<numAlerts;i++) {
             selectSeatParams sSP = flightAlertData.getSSP(i);
-            if (flightAlertData.testAlert(i)) {
-                Log.d(Constants.TAG, "Alert " + i + " Satisfied");
-                //Alert Matches, Handle Notification
-                NotificationCompat.Builder mBuilder =
-                        new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_seat_found)
-                        .setContentTitle("Seat Open Alert")
-                        .setContentText(sSP.flifo.carrier + sSP.flifo.flightNumber.toString() +" "+ sSP.flifo.flightDate);
-                NotificationManager mNotifyMgr =
-                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                mNotifyMgr.notify(i, mBuilder.build());
+            try {
+                if (flightAlertData.testAlert(i)) {
+                    Log.d(Constants.TAG, "Alert " + i + " Satisfied");
+                    //Alert Matches, Handle Notification
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(this)
+                                    .setSmallIcon(R.drawable.ic_seat_found)
+                                    .setContentTitle("Seat Open Alert")
+                                    .setContentText(sSP.flifo.carrier + sSP.flifo.flightNumber.toString() + " " + sSP.flifo.flightDate);
+                    mBuilder.setStyle(new NotificationCompat.InboxStyle());
+                    mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                    NotificationManager mNotifyMgr =
+                            (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    mNotifyMgr.notify(i, mBuilder.build());
 
+                }
+            } catch (Exception e) {
+                Log.d(Constants.TAG, "Failed Alarm " + i,e);
             }
         }
 
