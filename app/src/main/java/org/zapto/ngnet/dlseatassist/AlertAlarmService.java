@@ -3,6 +3,7 @@ package org.zapto.ngnet.dlseatassist;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -24,6 +25,10 @@ public class AlertAlarmService extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
+        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
+        if (!prefs.getBoolean(Constants.PREFS_SETTINGS_ENABLE_ALERTS,true))
+            return;
+
         Log.d(Constants.TAG, "Alert Alarm Service Activated");
         //this.app = (DLSeatAssistApp) getApplication();
 

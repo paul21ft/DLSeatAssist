@@ -10,8 +10,9 @@ public class Constants {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     //Interval to trigger alarm for checking alerts--may not run all alerts then
-    public static final long ALARM_INTERVAL_HOUR = AlarmManager.INTERVAL_HOUR;
-    public static final long ALARM_INTERVAL_DAY = AlarmManager.INTERVAL_DAY;
+    //public static final long ALARM_INTERVAL_HOUR = AlarmManager.INTERVAL_HOUR;
+    public static final long ALARM_INTERVAL_HOUR = 3600000;
+    public static final long ALARM_INTERVAL_DAY = 3600000*24;
     //public static final long ALARM_INTERVAL = 120000; //Static 2 minutes
 
     //Waiting 10 seconds to start the first alarm
